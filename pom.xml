@@ -18,6 +18,8 @@
         <hutool>5.3.10</hutool>
         <maven.plugin>2.2.2.RELEASE</maven.plugin>
         <mybatis.plus>3.3.1.tmp</mybatis.plus>
+        <swagger>2.9.2</swagger>
+        <swagger.ui>1.8.1</swagger.ui>
     </properties>
     <dependencies>
         <!-- springweb -->
@@ -58,6 +60,18 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis.plus}</version>
+        </dependency>
+        <!--Swagger依赖-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger}</version>
+        </dependency>
+        <!--Swagger-UI bootstrap依赖 -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>swagger-bootstrap-ui</artifactId>
+            <version>${swagger.ui}</version>
         </dependency>
     </dependencies>
 
