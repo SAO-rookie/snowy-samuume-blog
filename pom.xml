@@ -20,6 +20,7 @@
         <mybatis.plus>3.3.1.tmp</mybatis.plus>
         <swagger>2.9.2</swagger>
         <swagger.ui>1.8.1</swagger.ui>
+        <jwt>0.9.1</jwt>
     </properties>
     <dependencies>
         <!-- springweb -->
@@ -72,6 +73,17 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
             <version>${swagger.ui}</version>
+        </dependency>
+        <!--spring安全框架-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!--jwt-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jwt}</version>
         </dependency>
     </dependencies>
 
