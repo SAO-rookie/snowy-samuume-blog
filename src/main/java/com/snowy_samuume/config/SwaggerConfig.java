@@ -1,5 +1,6 @@
 package com.snowy_samuume.config;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
