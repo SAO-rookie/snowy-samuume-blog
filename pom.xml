@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.snowy-samuume</groupId>
     <artifactId>snowy-samuume-blog</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <description>Snowy 和  Samuume 一同制作 </description>
     <properties>
         <alibaba.druid>1.1.21</alibaba.druid>
@@ -75,10 +75,10 @@
             <version>${swagger.ui}</version>
         </dependency>
         <!--spring安全框架-->
-        <dependency>
+       <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+        </dependency>-->
         <!--jwt-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
