@@ -3,8 +3,8 @@ server:
 spring:
   datasource:
     username: root
-    password: 123456
-    url: jdbc:mysql://127.0.0.1:3306/blog_dev?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    password: admin123
+    url: jdbc:mysql://182.92.208.221:3306/blog?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     platform: mysql
