@@ -3,6 +3,7 @@ server:
 spring:
   redis:
     host: 182.92.208.221
+    password: asd2542823317zxc_snowy19971125
   datasource:
     username: root
     password: admin123
