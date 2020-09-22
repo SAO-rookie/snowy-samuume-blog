@@ -3,6 +3,7 @@ package com.snowy_samuume.entity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
  * @date 2020/9/19 20:45
  */
 @Data
-public abstract class BaseEntity {
+public abstract class BaseEntity implements Serializable {
     @ApiModelProperty(value = "状态 更具表选择")
     private Integer status;
 

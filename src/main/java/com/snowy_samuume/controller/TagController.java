@@ -1,7 +1,10 @@
 package com.snowy_samuume.controller;
 
+import com.snowy_samuume.tool.R;
 import io.swagger.annotations.Api;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,4 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/tag")
 @Api(value = "博客标签模块",tags = {"博客标签模块"})
 public class TagController {
+
+    @GetMapping("/indedx")
+    @PreAuthorize("hasRole('ADMIN')")
+    public R index(){
+        return R.ok("成功了");
+    }
 }

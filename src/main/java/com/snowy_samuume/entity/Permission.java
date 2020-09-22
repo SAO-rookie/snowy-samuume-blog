@@ -1,5 +1,6 @@
 package com.snowy_samuume.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -16,7 +17,7 @@ import lombok.Data;
 @TableName("sys_permission")
 public class Permission  extends BaseEntity{
 
-    @TableId
+    @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "许可id")
     private Integer id;
 

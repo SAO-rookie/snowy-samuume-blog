@@ -1,5 +1,6 @@
 package com.snowy_samuume.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -16,7 +17,7 @@ import lombok.Data;
 @TableName("t_tag")
 public class Tag  extends BaseEntity {
 
-    @TableId
+    @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "标签id")
     private Integer id;
 
