@@ -17,9 +17,4 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "博客标签模块",tags = {"博客标签模块"})
 public class TagController {
 
-    @GetMapping("/indedx")
-    @PreAuthorize("hasRole('ADMIN')")
-    public R index(){
-        return R.ok("成功了");
-    }
 }

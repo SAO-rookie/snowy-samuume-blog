@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author snowy
  * @date 2020/9/22 22:44
- * 解决过滤无法注入Bean
+ * 解决过滤器无法注入Bean
  *
  */
 @Component

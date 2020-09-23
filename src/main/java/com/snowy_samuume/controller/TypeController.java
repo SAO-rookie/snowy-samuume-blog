@@ -2,6 +2,7 @@ package com.snowy_samuume.controller;
 
 import com.snowy_samuume.entity.Type;
 import com.snowy_samuume.mapper.TypeMapper;
+import com.snowy_samuume.tool.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class TypeController {
     private TypeMapper typeMapper ;
     @ApiOperation(value = "添加类型",notes = "添加类型")
     @PostMapping
-    public void addType(){
-
+    public R addType(){
+        return R.ok();
     }
     @ApiOperation(value = "查询指定类型",notes = "查询指定类型")
     @GetMapping

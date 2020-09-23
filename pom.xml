@@ -63,16 +63,11 @@
             <version>${mybatis.plus}</version>
         </dependency>
         <!--Swagger依赖-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger}</version>
-        </dependency>
         <!--Swagger-UI bootstrap依赖 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
-            <artifactId>swagger-bootstrap-ui</artifactId>
-            <version>${swagger.ui}</version>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>2.0.2</version>
         </dependency>
         <!--spring安全框架-->
         <dependency>

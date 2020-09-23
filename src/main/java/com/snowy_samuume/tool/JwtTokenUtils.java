@@ -134,13 +134,4 @@ public class JwtTokenUtils {
         }
         return claims;
     }
-
-    public static void main(String[] args) {
-        User user = new User();
-        user.setUsername("dasdas");
-        String s = generateToken(user);
-        String usernameFromToken = getUsernameFromToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYwMDc4MjcyMywiaWF0IjoxNjAwNzgyNzIwLCJjcmVhdGVkIjoxNjAwNzgyNzIwMDc1fQ.vCMOtWstUs8helr9dcYAKf8zi6-QEFBCx7In_UAWMsyvF_7qjUQwmWeu6kG6jI62GzAQO4uRXyG4W3qHvv8feA");
-         System.out.println(usernameFromToken);
-
-    }
 }
