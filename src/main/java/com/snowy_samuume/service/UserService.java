@@ -14,4 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public interface UserService extends IService<User> {
    boolean saveUser(User user);
+
+   boolean sendVerificationCode(String email);
 }

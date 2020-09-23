@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Email;
+
 /**
  * @author snowy
  * @date 2020/9/19 21:35
@@ -27,5 +29,10 @@ public class UserController {
     @ApiOperation(value = "用户注册",notes = "用户注册")
     public R saveUser(@RequestBody User user){
         return R.ok(userService.saveUser(user));
+    }
+
+    @GetMapping
+    public R getVerificatioCode(@Email String email){
+        return  R.ok();
     }
 }

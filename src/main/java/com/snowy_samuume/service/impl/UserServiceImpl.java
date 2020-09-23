@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  * @since 2020-09-19
  */
 @Service
-@CacheConfig(cacheNames ="user_")
+@CacheConfig(cacheNames ="user")
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService, UserDetailsService {
     @Autowired
     private UserMapper userMapper;
@@ -44,8 +44,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private RolesService rolesService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
+    @Override
+    public boolean saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setNickname(user.getUsername());
+        return userMapper.insert(user)>0;
+    }
+
+    @Override
+    public boolean sendVerificationCode(String email) {
+        return false;
+    }
 
     @Override
     @Cacheable(key ="#p0+'*'")
@@ -65,12 +78,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 String.join(",",permissionCodes)
         ));
         return user;
-    }
-
-    @Override
-    public boolean saveUser(User user) {
-        user.setRolesId(1);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userMapper.insert(user)>0;
     }
 }

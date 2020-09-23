@@ -1,9 +1,11 @@
 package com.snowy_samuume.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -35,6 +37,7 @@ public class User extends BaseEntity implements UserDetails {
     private String username;
 
     @NotBlank
+    @JSONField(serialize=false)
     @ApiModelProperty(value = "密码")
     private String password;
 
@@ -55,14 +58,17 @@ public class User extends BaseEntity implements UserDetails {
     @ApiModelProperty(value = "头像")
     private String avatar;
 
+    @JSONField(serialize=false)
     @ApiModelProperty(value = "盐值")
     private String saltValue;
 
+    @JSONField(serialize=false)
     @ApiModelProperty(value = "角色id")
     private Integer rolesId;
 
-    @ApiModelProperty(value = "用户的权限集合")
+    @JSONField(serialize=false)
     @TableField(exist = false)
+    @ApiModelProperty(value = "用户的权限集合")
     private Collection<? extends GrantedAuthority> authorities;
 
     @Override
