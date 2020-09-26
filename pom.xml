@@ -18,8 +18,7 @@
         <hutool>5.3.10</hutool>
         <maven.plugin>2.2.2.RELEASE</maven.plugin>
         <mybatis.plus>3.3.1.tmp</mybatis.plus>
-        <swagger>2.9.2</swagger>
-        <swagger.ui>1.8.1</swagger.ui>
+        <swagger>1.27.0.0</swagger>
         <jwt>0.9.1</jwt>
     </properties>
     <dependencies>
@@ -84,12 +83,19 @@
         <dependency>
             <groupId>net.oschina.zcx7878</groupId>
             <artifactId>fastdfs-client-java</artifactId>
-            <version>1.27.0.0</version>
+            <version>${swagger}</version>
         </dependency>
+        <!--redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+        <!--邮箱-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <!--测试-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

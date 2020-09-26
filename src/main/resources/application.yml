@@ -45,9 +45,9 @@ spring:
         login-username: admin
         login-password: admin
   mail:
-    host: smtp.exmail.qq.com  # 对应各邮箱官方提示
+    host: smtp.qq.com  # 对应各邮箱官方提示
     username: 2391818790@qq.com  # 账号
-    password: ASD1997ZXC  # 企业邮箱为 客户端专用密码
+    password: tsgcsopjnbmveafi  # 企业邮箱为 客户端专用密码
     properties:
       mail:
         smtp:

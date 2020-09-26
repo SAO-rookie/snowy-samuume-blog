@@ -1,21 +1,17 @@
 package com.snowy_samuume.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.snowy_samuume.entity.VO.UserVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 
 /**
@@ -32,41 +28,27 @@ public class User extends BaseEntity implements UserDetails {
     @ApiModelProperty(value = "用户Id")
     private Integer id;
 
-    @NotBlank
     @ApiModelProperty(value = "账号")
     private String username;
 
-    @NotBlank
-    @JSONField(serialize=false)
     @ApiModelProperty(value = "密码")
     private String password;
-
 
     @ApiModelProperty(value = "昵称")
     private String nickname;
 
-    @NotBlank
-    @Size(max = 1)
     @ApiModelProperty(value = "性别 0男 1女 ")
     private Integer sex;
 
-    @NotBlank
-    @Email
     @ApiModelProperty(value = "邮箱")
     private String email;
 
     @ApiModelProperty(value = "头像")
     private String avatar;
 
-    @JSONField(serialize=false)
-    @ApiModelProperty(value = "盐值")
-    private String saltValue;
-
-    @JSONField(serialize=false)
     @ApiModelProperty(value = "角色id")
     private Integer rolesId;
 
-    @JSONField(serialize=false)
     @TableField(exist = false)
     @ApiModelProperty(value = "用户的权限集合")
     private Collection<? extends GrantedAuthority> authorities;
@@ -94,5 +76,18 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public static User getInstance(UserVO userVO){
+        return new User(userVO);
+    }
+
+    private User(UserVO userVO) {
+        this.username = userVO.getUsername();
+        this.password = userVO.getPassword();
+        this.nickname = userVO.getNickname();
+        this.sex = userVO.getSex();
+        this.email = userVO.getEmail();
+        this.avatar = userVO.getAvatar();
     }
 }

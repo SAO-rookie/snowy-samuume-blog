@@ -72,4 +72,15 @@ public class R<T> implements Serializable {
         apiResult.setMsg(msg);
         return apiResult;
     }
+    // 类不类
+    interface CommonConstants {
+        /**
+         * 成功标记
+         */
+        Integer SUCCESS = 0;
+        /**
+         * 失败标记
+         */
+        Integer FAIL = 1;
+    }
 }
