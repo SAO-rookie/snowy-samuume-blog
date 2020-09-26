@@ -22,7 +22,7 @@ public class test {
 
     @Test
     public void get(){
-        UserDetails admin = userService.loadUserByUsername("admin");
-        System.out.println(admin.getAuthorities());
+        User byId = userService.getById(4);
+        System.out.println(byId.getEmail());
     }
 }

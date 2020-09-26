@@ -3,7 +3,6 @@ package com.snowy_samuume.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.snowy_samuume.entity.User;
 import com.snowy_samuume.entity.VO.UserVO;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * <p>
@@ -17,4 +16,6 @@ public interface UserService extends IService<User> {
    boolean saveUser(UserVO userVO);
 
    boolean sendVerificationCode(String email);
+
+   UserVO getUserInfoById(Integer userId);
 }

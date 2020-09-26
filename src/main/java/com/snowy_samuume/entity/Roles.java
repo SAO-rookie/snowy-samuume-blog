@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * @author snowy
  * @date 2020-09-19 20:52:57
@@ -21,16 +23,16 @@ public class Roles  extends BaseEntity{
     @ApiModelProperty(value = "角色id")
     private Integer id;
 
+    @NotBlank
     @ApiModelProperty(value = "角色名")
     private String roleName;
 
+    @NotBlank
     @ApiModelProperty(value = "角色描述")
     private String roleDesc;
 
+    @NotBlank
     @ApiModelProperty(value = "角色编码")
     private String roleCode;
-
-    @ApiModelProperty(value = "角色顺序")
-    private Integer sort;
 
 }

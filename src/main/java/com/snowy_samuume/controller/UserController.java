@@ -31,9 +31,14 @@ public class UserController {
         return R.ok(userService.saveUser(userVO));
     }
 
-    @GetMapping("/getVerificatioCode")
+    @GetMapping("/getVerificationCode")
     @ApiOperation(value = "给邮箱发送验证码",notes = "给邮箱发送验证码")
-    public R getVerificatioCode(@NotBlank @Email String email){
+    public R getVerificationCode(@NotBlank @Email String email){
         return  R.ok(userService.sendVerificationCode(email));
+    }
+
+    @GetMapping("/user/{userId}")
+    public R getUserInfoById(@PathVariable Integer userId){
+        return R.ok(userService.getUserInfoById(userId));
     }
 }

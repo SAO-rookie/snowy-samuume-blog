@@ -1,16 +1,14 @@
 package com.snowy_samuume.entity.VO;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.snowy_samuume.entity.Roles;
+import com.snowy_samuume.entity.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * @author snowy
@@ -19,6 +17,9 @@ import java.util.Collection;
 @Data
 public class UserVO implements Serializable {
 
+    @NotBlank
+    @ApiModelProperty(value = "id")
+    private Integer id;
     @NotBlank
     @ApiModelProperty(value = "账号")
     private String username;
@@ -45,13 +46,32 @@ public class UserVO implements Serializable {
     @ApiModelProperty(value = "头像")
     private String avatar;
 
-    @ApiModelProperty(value = "角色id")
-    private Integer rolesId;
+    @ApiModelProperty(value = "角色编码")
+    private String rolesCode;
+
+    @ApiModelProperty(value = "角色名")
+    private String rolesName;
 
     @ApiModelProperty(value = "用户的权限集合")
-    private Collection<? extends GrantedAuthority> authorities;
+    private List<String> authorities;
 
     @NotBlank
     @ApiModelProperty(value = "验证码")
     private String verificationCode;
+
+    public static  UserVO getInstanceUserVO(User user, Roles roles, List<String>  authorities){
+        return new UserVO(user,roles,authorities);
+    }
+
+    private UserVO(User user, Roles roles, List<String>  authorities) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.nickname = user.getNickname();
+        this.sex = user.getSex();
+        this.email = user.getEmail();
+        this.avatar = user.getAvatar();
+        this.rolesName = roles.getRoleName();
+        this.rolesCode = roles.getRoleCode();
+        this.authorities = authorities;
+    }
 }

@@ -1,7 +1,6 @@
 package com.snowy_samuume.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.snowy_samuume.entity.Permission;
@@ -97,6 +96,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Cacheable(key ="#p0+'id'")
+    public UserVO getUserInfoById(Integer userId) {
+        User user = userMapper.selectById(userId);
+        // 获取当前角色
+        Roles role = rolesService.getById(user.getRolesId());
+        return UserVO.getInstanceUserVO(user,role,getPermissionCodes(role));
+    }
+
+    @Override
     @Cacheable(key ="#p0+'*'")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
@@ -104,18 +112,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Optional.ofNullable(user).orElseThrow(()-> new UsernameNotFoundException("用户名不存在"));
         // 获取当前角色
         Roles role = rolesService.getById(user.getRolesId());
-        // 根据当前角色搜索权限
-        List<String> permissionCodes = permissionService.getListByRolesId(role.getId())
+        // 将权限给予用户对象
+        user.setAuthorities( AuthorityUtils.commaSeparatedStringToAuthorityList(
+                String.join(",",getPermissionCodes(role))
+        ));
+        return user;
+    }
+
+    /**
+     * 根据当前角色搜索权限
+     * */
+    private List<String> getPermissionCodes(Roles roles){
+        List<String> permissionCodes = permissionService.getListByRolesId(roles.getId())
                 .stream()
                 .map(Permission::getPermissionCode)
                 .collect(Collectors.toList());
-
-        permissionCodes.add(role.getRoleCode());
-        // 将权限给予用户对象
-        user.setAuthorities( AuthorityUtils.commaSeparatedStringToAuthorityList(
-                String.join(",",permissionCodes)
-        ));
-        return user;
+        permissionCodes.add(roles.getRoleCode());
+        return permissionCodes;
     }
 
     /**

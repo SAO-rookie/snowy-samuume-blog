@@ -19,7 +19,10 @@ import java.util.Collection;
  * @date 2020-09-19 20:52:57
  * @email 
  */
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @ApiModel("用户表")
 @TableName("sys_user")
 public class User extends BaseEntity implements UserDetails {
