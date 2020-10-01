@@ -13,7 +13,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.security.Security;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author snowy
@@ -32,10 +35,23 @@ public class RolesController {
         return R.ok(rolesService.page(page));
     }
 
+    @GetMapping("/{id}")
+    @ApiOperation(value = "根据id查询角色",notes = "根据id查询角色")
+    public R getRolesById(@PathVariable Integer id){
+        return R.ok(rolesService.getById(id));
+    }
+
+
     @PostMapping
     @ApiOperation(value = "保存角色",notes = "保存角色")
     public R saveRoles(@RequestBody @Valid Roles roles){
         return R.ok(rolesService.save(roles));
+    }
+
+    @PostMapping("/RoleAndPermissions/{roleId}")
+    @ApiOperation(value = "根据角色Id保存权限",notes = "根据角色Id保存权限")
+    public R saveRoleAndPermissions(@PathVariable Integer roleId, @RequestBody List<Integer> permissions){
+        return R.ok(rolesService.saveRoleAndPermissions(roleId,permissions));
     }
 
     @PutMapping

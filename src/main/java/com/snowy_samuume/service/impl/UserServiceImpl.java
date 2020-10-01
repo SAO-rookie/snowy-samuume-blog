@@ -2,6 +2,7 @@ package com.snowy_samuume.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.snowy_samuume.entity.Permission;
 import com.snowy_samuume.entity.Roles;
@@ -11,6 +12,7 @@ import com.snowy_samuume.mapper.UserMapper;
 import com.snowy_samuume.service.PermissionService;
 import com.snowy_samuume.service.RolesService;
 import com.snowy_samuume.service.UserService;
+import com.snowy_samuume.tool.SecurityUitls;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,10 +65,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     @Cacheable(key ="#p0+'id'")
     public UserVO getUserInfoById(Integer userId) {
-        User user = userMapper.selectById(userId);
-        // 获取当前角色
-        Roles role = rolesService.getById(user.getRolesId());
-        return UserVO.getInstanceUserVO(user,role,getPermissionCodes(role));
+        return UserVO.getInstance(userMapper.selectById(userId));
     }
 
     @Override
@@ -87,7 +86,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // html 邮件对象
         MimeMessage message = javaMailSender.createMimeMessage();
         try {
-            String code = verificationCode();
+            String code = SecurityUitls.verificationCode();
             //true表示需要创建一个multipart message
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setFrom(fromMail);
@@ -120,8 +119,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 String.join(",",permissionCodes)
         ));
         // 将用户信息存入redis
-        UserVO userVO = UserVO.getInstanceUserVO(user, role, getPermissionCodes(role));
-        toreUserInfo(userVO);
+        SecurityUitls.storeUserInfo(user,role,permissionCodes);
+
         return user;
     }
 
@@ -137,20 +136,4 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return permissionCodes;
     }
 
-    /**
-     * 产生验证码
-    * */
-    private static String verificationCode(){
-        Random random = new Random();
-        int i = random.nextInt(1000000);
-        return String.valueOf(i);
-    }
-
-    private void toreUserInfo(UserVO userVO){
-        boolean present = Optional.ofNullable(redisTemplate.boundValueOps("current:user:" + userVO.getUsername()).get()).isPresent();
-        if (!present){
-            redisTemplate.boundValueOps("current:user:"+userVO.getUsername()).set(userVO,1,TimeUnit.HOURS);
-        }
-
-    }
 }

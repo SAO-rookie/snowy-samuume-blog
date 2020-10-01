@@ -2,6 +2,9 @@ package com.snowy_samuume.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.snowy_samuume.entity.Roles;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,5 @@ import com.snowy_samuume.entity.Roles;
  * @since 2020-09-19
  */
 public interface RolesService extends IService<Roles> {
-
+    boolean saveRoleAndPermissions(Integer roleId,  List<Integer> permissions);
 }

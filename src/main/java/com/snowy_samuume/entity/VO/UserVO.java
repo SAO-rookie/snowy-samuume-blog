@@ -1,6 +1,7 @@
 package com.snowy_samuume.entity.VO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.snowy_samuume.entity.Roles;
 import com.snowy_samuume.entity.User;
 import io.swagger.annotations.ApiModelProperty;
@@ -63,13 +64,16 @@ public class UserVO implements Serializable {
     private List<String> authorities;
 
     @NotBlank
+    @JsonIgnore
     @ApiModelProperty(value = "验证码")
     private String verificationCode;
 
-    public static  UserVO getInstanceUserVO(User user, Roles roles, List<String>  authorities){
+    public static  UserVO getInstance(User user, Roles roles, List<String>  authorities){
         return new UserVO(user,roles,authorities);
     }
-
+    public static  UserVO getInstance(User user){
+        return new UserVO(user);
+    }
     private UserVO(User user, Roles roles, List<String>  authorities) {
         this.id = user.getId();
         this.username = user.getUsername();
@@ -80,5 +84,14 @@ public class UserVO implements Serializable {
         this.rolesName = roles.getRoleName();
         this.rolesCode = roles.getRoleCode();
         this.authorities = authorities;
+    }
+
+    private UserVO(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.nickname = user.getNickname();
+        this.sex = user.getSex();
+        this.email = user.getEmail();
+        this.avatar = user.getAvatar();
     }
 }

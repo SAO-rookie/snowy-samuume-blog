@@ -13,12 +13,12 @@ import javax.annotation.PostConstruct;
  */
 @Component
 @Slf4j
-public class RedisBean {
+public final class RedisBean {
 
     @Autowired
     private RedisTemplate redisTemplate;
 
-    public static RedisTemplate redis;
+    public  static RedisTemplate redis;
 
     @PostConstruct
     public void getRedisTemplate(){

@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface PermissionMapper extends BaseMapper<Permission> {
     List<Permission> selectListByRolesId(@Param("rolesId") int rolesId);
+
+    long bulkInsertRolesAndPermission(@Param("roleId") Integer roleId, @Param("permissions") List<Integer> permissions);
 }
