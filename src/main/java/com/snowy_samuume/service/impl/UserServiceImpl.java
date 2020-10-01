@@ -61,6 +61,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private String fromMail;
 
     @Override
+    @Cacheable(key ="#p0+'id'")
+    public UserVO getUserInfoById(Integer userId) {
+        User user = userMapper.selectById(userId);
+        // 获取当前角色
+        Roles role = rolesService.getById(user.getRolesId());
+        return UserVO.getInstanceUserVO(user,role,getPermissionCodes(role));
+    }
+
+    @Override
     public boolean saveUser(UserVO userVO) {
         if (userVO.getVerificationCode().equals(redisTemplate.opsForValue().get(userVO.getEmail()+":verificationCode"))){
             User user = User.getInstance(userVO);
@@ -95,17 +104,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
     }
 
-    @Override
-    @Cacheable(key ="#p0+'id'")
-    public UserVO getUserInfoById(Integer userId) {
-        User user = userMapper.selectById(userId);
-        // 获取当前角色
-        Roles role = rolesService.getById(user.getRolesId());
-        return UserVO.getInstanceUserVO(user,role,getPermissionCodes(role));
-    }
+
 
     @Override
-    @Cacheable(key ="#p0+'*'")
+    @Cacheable(key ="#p0+':username'")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
         // 判断用户是否空 为空抛出异常
@@ -113,9 +115,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 获取当前角色
         Roles role = rolesService.getById(user.getRolesId());
         // 将权限给予用户对象
+        List<String> permissionCodes = getPermissionCodes(role);
         user.setAuthorities( AuthorityUtils.commaSeparatedStringToAuthorityList(
-                String.join(",",getPermissionCodes(role))
+                String.join(",",permissionCodes)
         ));
+        // 将用户信息存入redis
+        UserVO userVO = UserVO.getInstanceUserVO(user, role, getPermissionCodes(role));
+        toreUserInfo(userVO);
         return user;
     }
 
@@ -138,5 +144,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Random random = new Random();
         int i = random.nextInt(1000000);
         return String.valueOf(i);
+    }
+
+    private void toreUserInfo(UserVO userVO){
+        boolean present = Optional.ofNullable(redisTemplate.boundValueOps("current:user:" + userVO.getUsername()).get()).isPresent();
+        if (!present){
+            redisTemplate.boundValueOps("current:user:"+userVO.getUsername()).set(userVO,1,TimeUnit.HOURS);
+        }
+
     }
 }

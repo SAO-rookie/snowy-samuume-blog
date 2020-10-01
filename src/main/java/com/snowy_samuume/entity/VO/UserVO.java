@@ -1,10 +1,14 @@
 package com.snowy_samuume.entity.VO;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.snowy_samuume.entity.Roles;
 import com.snowy_samuume.entity.User;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -14,7 +18,10 @@ import java.util.List;
  * @author snowy
  * @date 2020/9/26 15:06
  */
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserVO implements Serializable {
 
     @NotBlank
@@ -25,7 +32,7 @@ public class UserVO implements Serializable {
     private String username;
 
     @NotBlank
-    @JSONField(serialize=false)
+    @JsonIgnore
     @ApiModelProperty(value = "密码")
     private String password;
 

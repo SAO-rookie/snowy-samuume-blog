@@ -14,7 +14,7 @@
     <description>Snowy 和  Samuume 一同制作 </description>
     <properties>
         <alibaba.druid>1.1.21</alibaba.druid>
-        <alibaba.fastjson>1.2.66</alibaba.fastjson>
+        <jackson-version>2.9.9</jackson-version>
         <hutool>5.3.10</hutool>
         <maven.plugin>2.2.2.RELEASE</maven.plugin>
         <mybatis.plus>3.3.1.tmp</mybatis.plus>
@@ -43,11 +43,21 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-        <!-- 阿里fastjson -->
+        <!--jackson-->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>${alibaba.fastjson}</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-version}</version>
         </dependency>
         <!-- 糊涂工具包 -->
         <dependency>

@@ -16,4 +16,9 @@ import java.util.List;
  */
 public interface PermissionService extends IService<Permission> {
     List<Permission> getListByRolesId(int rolesId);
+
+    boolean savePermission(Permission permission);
+
+    boolean updatePermission(Permission permission);
+
 }
