@@ -2,12 +2,10 @@ package com.snowy_samuume.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.snowy_samuume.entity.Permission;
 import com.snowy_samuume.entity.Roles;
 import com.snowy_samuume.entity.User;
-import com.snowy_samuume.entity.VO.UserVO;
 import com.snowy_samuume.mapper.UserMapper;
 import com.snowy_samuume.service.PermissionService;
 import com.snowy_samuume.service.RolesService;
@@ -31,7 +29,6 @@ import org.springframework.stereotype.Service;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -63,22 +60,40 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private String fromMail;
 
     @Override
-    @Cacheable(key ="#p0+'id'")
-    public UserVO getUserInfoById(Integer userId) {
-        return UserVO.getInstance(userMapper.selectById(userId));
+    @Cacheable(key ="#p0+':id'")
+    public User getUserInfoById(Integer userId) {
+        return userMapper.selectById(userId);
     }
 
+
+
     @Override
-    public boolean saveUser(UserVO userVO) {
-        if (userVO.getVerificationCode().equals(redisTemplate.opsForValue().get(userVO.getEmail()+":verificationCode"))){
-            User user = User.getInstance(userVO);
+    @Cacheable(key ="#p0+':username'")
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
+        // 判断用户是否空 为空抛出异常
+        Optional.ofNullable(user).orElseThrow(()-> new UsernameNotFoundException("用户名不存在"));
+        // 获取当前角色
+        Roles role = rolesService.getById(user.getRolesId());
+        // 将权限给予用户对象
+        List<String> permissionCodes = getPermissionCodes(role);
+        user.setAuthorities( AuthorityUtils.commaSeparatedStringToAuthorityList(
+                String.join(",",permissionCodes)
+        ));
+        return user;
+    }
+
+
+    @Override
+    public boolean saveUser(User user) {
+        if (user.getVerificationCode().equals(redisTemplate.opsForValue().get(user.getEmail()+":verificationCode"))){
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             if (StrUtil.isEmpty(user.getNickname())) {
                 user.setNickname(user.getUsername());
             }
             return userMapper.insert(user)>0;
         }
-            return false;
+        return false;
     }
 
     @Override
@@ -101,27 +116,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             log.info("发送邮件失败");
             return false;
         }
-    }
-
-
-
-    @Override
-    @Cacheable(key ="#p0+':username'")
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
-        // 判断用户是否空 为空抛出异常
-        Optional.ofNullable(user).orElseThrow(()-> new UsernameNotFoundException("用户名不存在"));
-        // 获取当前角色
-        Roles role = rolesService.getById(user.getRolesId());
-        // 将权限给予用户对象
-        List<String> permissionCodes = getPermissionCodes(role);
-        user.setAuthorities( AuthorityUtils.commaSeparatedStringToAuthorityList(
-                String.join(",",permissionCodes)
-        ));
-        // 将用户信息存入redis
-        SecurityUitls.storeUserInfo(user,role,permissionCodes);
-
-        return user;
     }
 
     /**

@@ -5,14 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.snowy_samuume.entity.VO.UserVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 
 /**
@@ -20,16 +19,16 @@ import java.util.Collection;
  * @date 2020-09-19 20:52:57
  * @email 
  */
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
 @ApiModel("用户表")
 @TableName("sys_user")
 public class User extends BaseEntity implements UserDetails {
 
+    //序列化ID
+    private static final long serialVersionUID = 1L;
+
     @TableId(type = IdType.AUTO)
-    @JsonIgnore
     @ApiModelProperty(value = "用户Id")
     private Integer id;
 
@@ -57,6 +56,11 @@ public class User extends BaseEntity implements UserDetails {
     @TableField(exist = false)
     @ApiModelProperty(value = "用户的权限集合")
     private Collection<? extends GrantedAuthority> authorities;
+
+    @NotBlank
+    @JsonIgnore
+    @ApiModelProperty(value = "验证码")
+    private String verificationCode;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -87,16 +91,4 @@ public class User extends BaseEntity implements UserDetails {
         return true;
     }
 
-    public static User getInstance(UserVO userVO){
-        return new User(userVO);
-    }
-
-    private User(UserVO userVO) {
-        this.username = userVO.getUsername();
-        this.password = userVO.getPassword();
-        this.nickname = userVO.getNickname();
-        this.sex = userVO.getSex();
-        this.email = userVO.getEmail();
-        this.avatar = userVO.getAvatar();
-    }
 }

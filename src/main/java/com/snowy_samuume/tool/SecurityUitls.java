@@ -1,15 +1,12 @@
 package com.snowy_samuume.tool;
 
-import com.snowy_samuume.entity.Roles;
+import com.snowy_samuume.config.auth.jwt.SpringBeanFactoryUtils;
 import com.snowy_samuume.entity.User;
-import com.snowy_samuume.entity.VO.UserVO;
+import com.snowy_samuume.service.impl.UserServiceImpl;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author snowy
@@ -18,10 +15,10 @@ import java.util.concurrent.TimeUnit;
 @UtilityClass
 public class SecurityUitls {
 
-    public UserVO getUserInfo(){
+    public User getUserInfo(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Object o = RedisBean.redis.boundValueOps("current:user:" + principal.toString()).get();
-        UserVO user =JsonUtils.toJavaObject(o, UserVO.class);
+        UserServiceImpl userService = SpringBeanFactoryUtils.getBean(UserServiceImpl.class);
+        User user = (User)userService.loadUserByUsername(String.valueOf(principal));
         return  user;
     }
 
@@ -32,15 +29,5 @@ public class SecurityUitls {
         Random random = new Random();
         int i = random.nextInt(1000000);
         return String.valueOf(i);
-    }
-    /**
-     * 保存用户信息到redis
-     * */
-    public void storeUserInfo(User user, Roles roles, List<String> authorities){
-        UserVO userVO = UserVO.getInstance(user, roles, authorities);
-        boolean present = Optional.ofNullable(RedisBean.redis.boundValueOps("current:user:" + userVO.getUsername()).get()).isPresent();
-        if (!present){
-            RedisBean.redis.boundValueOps("current:user:"+userVO.getUsername()).set(userVO,1, TimeUnit.HOURS);
-        }
     }
 }

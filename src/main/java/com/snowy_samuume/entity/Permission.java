@@ -16,6 +16,8 @@ import lombok.Data;
 @ApiModel("权限标签")
 @TableName("sys_permission")
 public class Permission  extends BaseEntity{
+    //序列化ID
+    private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "许可id")

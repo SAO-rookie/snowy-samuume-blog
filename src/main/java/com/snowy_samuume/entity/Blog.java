@@ -16,6 +16,8 @@ import lombok.Data;
 @ApiModel("博客表")
 @TableName("t_blog")
 public class Blog extends BaseEntity {
+    //序列化ID
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "博客id")
     @TableId(type = IdType.INPUT)

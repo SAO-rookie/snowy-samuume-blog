@@ -1,7 +1,7 @@
 package com.snowy_samuume.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.snowy_samuume.entity.VO.UserVO;
+import com.snowy_samuume.entity.User;
 import com.snowy_samuume.service.UserService;
 import com.snowy_samuume.tool.R;
 import com.snowy_samuume.tool.SecurityUitls;
@@ -40,15 +40,15 @@ public class UserController {
     }
 
     @GetMapping("/page")
-    @ApiOperation(value = "根据Id查询用户信息",notes = "根据Id查询用户信息")
+    @ApiOperation(value = "查询所有用户信息",notes = "查询所有用户信息")
     public R getUserPage(Page page){
         return R.ok(userService.page(page));
     }
 
     @PostMapping("/register")
     @ApiOperation(value = "用户注册",notes = "用户注册")
-    public R saveUser(@RequestBody @Valid UserVO userVO){
-        return R.ok(userService.saveUser(userVO));
+    public R saveUser(@RequestBody @Valid User User){
+        return R.ok(userService.saveUser(User));
     }
 
     @GetMapping("/getVerificationCode")

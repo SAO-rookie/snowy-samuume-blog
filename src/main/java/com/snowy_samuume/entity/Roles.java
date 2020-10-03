@@ -18,6 +18,8 @@ import javax.validation.constraints.NotBlank;
 @ApiModel("角色id")
 @TableName("sys_roles")
 public class Roles  extends BaseEntity{
+    //序列化ID
+    private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "角色id")

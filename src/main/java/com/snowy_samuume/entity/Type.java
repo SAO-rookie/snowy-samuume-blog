@@ -16,6 +16,8 @@ import lombok.Data;
 @ApiModel("博客类型")
 @TableName("t_type")
 public class Type extends BaseEntity {
+    //序列化ID
+    private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "类型id")

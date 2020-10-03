@@ -16,6 +16,8 @@ import lombok.Data;
 @ApiModel("博客标签")
 @TableName("t_tag")
 public class Tag  extends BaseEntity {
+    //序列化ID
+    private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "标签id")
