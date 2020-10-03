@@ -1,5 +1,6 @@
 package com.snowy_samuume.controller;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.snowy_samuume.entity.User;
 import com.snowy_samuume.service.UserService;
@@ -45,16 +46,34 @@ public class UserController {
         return R.ok(userService.page(page));
     }
 
+
+    @GetMapping("/getVerificationCode")
+    @ApiOperation(value = "给邮箱发送验证码",notes = "给邮箱发送验证码")
+    public R getVerificationCode(@NotBlank @Email String email){
+        return  R.ok(userService.sendVerificationCode(email));
+    }
+
     @PostMapping("/register")
     @ApiOperation(value = "用户注册",notes = "用户注册")
     public R saveUser(@RequestBody @Valid User User){
         return R.ok(userService.saveUser(User));
     }
 
-    @GetMapping("/getVerificationCode")
-    @ApiOperation(value = "给邮箱发送验证码",notes = "给邮箱发送验证码")
-    public R getVerificationCode(@NotBlank @Email String email){
-        return  R.ok(userService.sendVerificationCode(email));
+    @PutMapping
+    @ApiOperation(value = "用户修改",notes = "用户修改")
+    public R updateUser(@RequestBody @Valid User user){
+        user.setUpdateTime(DateUtil.date());
+        user.setUpdateMan(SecurityUitls.getUserInfo().getId());
+        return R.ok(userService.updateById(user));
+    }
+
+    @DeleteMapping("/{userId}")
+    @ApiOperation(value = "用户修改",notes = "用户修改")
+    public R updateUser(@PathVariable Integer userId){
+        User user = new User();
+        user.setId(userId);
+        user.setStatus(2);
+        return R.ok(userService.updateById(user));
     }
 
 }

@@ -56,6 +56,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private RedisTemplate redisTemplate;
     @Autowired
     private JavaMailSender javaMailSender;
+
     @Value("${spring.mail.username}")
     private String fromMail;
 
@@ -76,7 +77,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 获取当前角色
         Roles role = rolesService.getById(user.getRolesId());
         // 将权限给予用户对象
-        List<String> permissionCodes = getPermissionCodes(role);
+        List<String> permissionCodes = permissionService.getListByRolesId(role.getId())
+                .stream()
+                .map(Permission::getPermissionCode)
+                .collect(Collectors.toList());
+        permissionCodes.add(role.getRoleCode());
+
         user.setAuthorities( AuthorityUtils.commaSeparatedStringToAuthorityList(
                 String.join(",",permissionCodes)
         ));
@@ -118,16 +124,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
     }
 
-    /**
-     * 根据当前角色搜索权限
-     * */
-    private List<String> getPermissionCodes(Roles roles){
-        List<String> permissionCodes = permissionService.getListByRolesId(roles.getId())
-                .stream()
-                .map(Permission::getPermissionCode)
-                .collect(Collectors.toList());
-        permissionCodes.add(roles.getRoleCode());
-        return permissionCodes;
-    }
+
 
 }

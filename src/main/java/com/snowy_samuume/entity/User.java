@@ -11,7 +11,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
 import java.util.Collection;
 
 /**
@@ -20,7 +20,6 @@ import java.util.Collection;
  * @email 
  */
 @Data
-@NoArgsConstructor
 @ApiModel("用户表")
 @TableName("sys_user")
 public class User extends BaseEntity implements UserDetails {
@@ -28,31 +27,41 @@ public class User extends BaseEntity implements UserDetails {
     //序列化ID
     private static final long serialVersionUID = 1L;
 
+
     @TableId(type = IdType.AUTO)
     @ApiModelProperty(value = "用户Id")
     private Integer id;
 
+    @NotBlank
     @ApiModelProperty(value = "账号")
     private String username;
 
+    @NotBlank
+    @JsonIgnore
     @ApiModelProperty(value = "密码")
     private String password;
 
     @ApiModelProperty(value = "昵称")
     private String nickname;
 
+    @NotNull
+    @Max(value = 1,message = "最大一个")
     @ApiModelProperty(value = "性别 0男 1女 ")
     private Integer sex;
 
+    @NotBlank
+    @Email
     @ApiModelProperty(value = "邮箱")
     private String email;
 
     @ApiModelProperty(value = "头像")
     private String avatar;
 
+
     @ApiModelProperty(value = "角色id")
     private Integer rolesId;
 
+    @Null
     @TableField(exist = false)
     @ApiModelProperty(value = "用户的权限集合")
     private Collection<? extends GrantedAuthority> authorities;
