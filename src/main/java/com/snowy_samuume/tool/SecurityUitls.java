@@ -1,6 +1,5 @@
 package com.snowy_samuume.tool;
 
-import com.snowy_samuume.config.auth.jwt.SpringBeanFactoryUtils;
 import com.snowy_samuume.entity.User;
 import com.snowy_samuume.service.impl.UserServiceImpl;
 import lombok.experimental.UtilityClass;

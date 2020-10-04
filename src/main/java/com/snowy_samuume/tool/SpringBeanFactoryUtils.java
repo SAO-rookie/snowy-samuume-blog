@@ -1,4 +1,4 @@
-package com.snowy_samuume.config.auth.jwt;
+package com.snowy_samuume.tool;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
