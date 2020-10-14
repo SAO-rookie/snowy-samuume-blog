@@ -21,7 +21,7 @@ import java.io.InputStream;
 @RestController
 @RequestMapping("/file")
 @Api(value = "文件模块",tags = "文件模块")
-public class FileController{
+public class FileController implements AutoCloseable{
 
     /**
      * 上传文件
@@ -60,9 +60,11 @@ public class FileController{
         String substringOne = path.substring(27);
         String groupName = substringOne.substring(0, 6);
         String remoteFileName = substringOne.substring(7);
-        InputStream inputStream = FastDFSUtils.downFile(groupName, remoteFileName);
-        try {
+
+        try(
+            InputStream inputStream = FastDFSUtils.downFile(groupName, remoteFileName);
             ServletOutputStream outputStream = response.getOutputStream();
+        ){
             byte[] temp = new byte[1024];
             int len = 0;
             while ((len = inputStream.read(temp)) != -1){
@@ -72,18 +74,12 @@ public class FileController{
             outputStream.flush();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (inputStream != null){
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
 
+    @Override
+    public void close() throws Exception {
 
-
+    }
 }

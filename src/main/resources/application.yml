@@ -47,7 +47,7 @@ spring:
   mail:
     host: smtp.qq.com  # 对应各邮箱官方提示
     username: 2391818790@qq.com  # 账号
-    password: tsgcsopjnbmveafi  # 企业邮箱为 客户端专用密码
+    password: tsgcsopjnbmveafi  # 秘钥
     properties:
       mail:
         smtp:

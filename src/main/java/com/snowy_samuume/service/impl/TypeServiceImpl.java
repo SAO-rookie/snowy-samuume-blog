@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.snowy_samuume.entity.Type;
 import com.snowy_samuume.mapper.TypeMapper;
 import com.snowy_samuume.service.TypeService;
-import jdk.nashorn.internal.codegen.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
