@@ -12,7 +12,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,19 +70,21 @@ public class UserController {
     @PutMapping
     @ApiOperation(value = "用户修改",notes = "用户修改")
     public R updateUser(@RequestBody @Valid User user){
+        user.setPassword(null);
         user.setUpdateTime(DateUtil.date());
         user.setUpdateMan(SecurityUitls.getUserInfo().getId());
         return R.ok(userService.updateById(user));
     }
 
     @DeleteMapping("/{userId}")
-    @ApiOperation(value = "用户修改",notes = "用户修改")
+    @ApiOperation(value = "用户删除",notes = "用户删除")
     public R updateUser(@PathVariable Integer userId){
         User user = new User();
         user.setId(userId);
         user.setStatus(2);
         return R.ok(userService.updateById(user));
     }
+
     @GetMapping("/getCaptcha")
     @ApiOperation(value = "获得图形验证码",notes = "获得图形验证码")
     public void getCaptcha(HttpServletResponse response){

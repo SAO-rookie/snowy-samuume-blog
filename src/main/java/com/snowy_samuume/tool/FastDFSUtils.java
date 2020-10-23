@@ -18,7 +18,7 @@ import java.io.InputStream;
  * @date 2020/7/11 - 22:29
  */
 public class FastDFSUtils {
-    /*
+    /**
     *  根据配置文件初始化连接
     * */
     static {
@@ -31,7 +31,7 @@ public class FastDFSUtils {
             e.printStackTrace();
         }
     }
-    /*
+    /**
     *   获取TrackerServer并且获取Storage里的信息
     * */
     private static TrackerServer getTrackerClient() throws IOException {
@@ -41,7 +41,7 @@ public class FastDFSUtils {
         return trackerClient.getConnection();
     }
 
-    /*
+    /**
     *   获取StorageClient对象
     * */
     private static StorageClient getStorageClient() throws IOException {
@@ -133,7 +133,7 @@ public class FastDFSUtils {
         return null;
     }
 
-    /*
+    /**
     * 文件上传
     * */
     public static  String uploadTool(MultipartFile file){

@@ -14,7 +14,7 @@
     <description>Snowy 和  Samuume 一同制作 </description>
     <properties>
         <alibaba.druid>1.1.21</alibaba.druid>
-        <jackson-version>2.9.9</jackson-version>
+        <jackson-version>2.9.8</jackson-version>
         <hutool>5.3.10</hutool>
         <maven.plugin>2.2.2.RELEASE</maven.plugin>
         <mybatis.plus>3.3.1.tmp</mybatis.plus>

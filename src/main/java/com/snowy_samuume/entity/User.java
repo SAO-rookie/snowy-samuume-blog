@@ -69,6 +69,7 @@ public class User extends BaseEntity implements UserDetails {
     @NotBlank
     @JsonIgnore
     @ApiModelProperty(value = "验证码")
+    @TableField(exist = false)
     private String verificationCode;
 
     @Override

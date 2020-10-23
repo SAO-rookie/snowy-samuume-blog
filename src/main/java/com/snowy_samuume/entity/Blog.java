@@ -7,6 +7,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * @author 雪域人
  * @date 2020-09-19 20:52:57
@@ -23,9 +26,11 @@ public class Blog extends BaseEntity {
     @TableId(type = IdType.INPUT)
     private String id;
 
+    @NotBlank
     @ApiModelProperty(value = "标题")
     private String title;
 
+    @NotBlank
     @ApiModelProperty(value = "内容")
     private String content;
 
