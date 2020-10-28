@@ -11,6 +11,8 @@ import java.io.Serializable;
  * @author snowy
  * @date 2020/8/9 0:30
  */
+@Getter
+@Setter
 @Builder
 @ToString
 @NoArgsConstructor
@@ -20,19 +22,16 @@ import java.io.Serializable;
 public class R<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Getter
-    @Setter
+
     @ApiModelProperty(value = "返回标记：成功标记=0，失败标记=1")
     private int code;
 
-    @Getter
-    @Setter
+
     @ApiModelProperty(value = "返回信息")
     private String msg;
 
 
-    @Getter
-    @Setter
+
     @ApiModelProperty(value = "数据")
     private T data;
 
