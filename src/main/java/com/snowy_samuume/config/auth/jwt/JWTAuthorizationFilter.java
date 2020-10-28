@@ -1,5 +1,6 @@
 package com.snowy_samuume.config.auth.jwt;
 
+import cn.hutool.core.util.StrUtil;
 import com.snowy_samuume.service.impl.UserServiceImpl;
 import com.snowy_samuume.tool.JwtTokenUtils;
 import com.snowy_samuume.tool.SpringBeanFactoryUtils;
@@ -32,7 +33,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                                     FilterChain chain) throws IOException, ServletException {
         String tokenHeader  = request.getHeader(JwtTokenUtils.TOKEN_HANDER);
         // 如果请求头中没有Authorization信息则直接放行了
-        if (tokenHeader == null || !tokenHeader.startsWith(JwtTokenUtils.TOKEN_PREFIX)){
+        if (StrUtil.isEmpty(tokenHeader) || !tokenHeader.startsWith(JwtTokenUtils.TOKEN_PREFIX)){
             chain.doFilter(request, response);
             return;
         }
@@ -47,7 +48,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(String tokenHeader) {
         String token = tokenHeader.replace(JwtTokenUtils.TOKEN_PREFIX, "");
         String username = JwtTokenUtils.getUsernameFromToken(token);
-        if (username != null){
+        if (StrUtil.isNotBlank(username)){
             UserServiceImpl userService = SpringBeanFactoryUtils.getBean(UserServiceImpl.class);
             return new UsernamePasswordAuthenticationToken(username, null,
                     userService.loadUserByUsername(username).getAuthorities()

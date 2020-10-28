@@ -1,5 +1,6 @@
 package com.snowy_samuume.config.auth.jwt;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snowy_samuume.entity.User;
@@ -66,12 +67,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private boolean isCaptcha(String captcha){
         StringRedisTemplate bean = SpringBeanFactoryUtils.getBean(StringRedisTemplate.class);
+        
         List<String> captchas = bean.opsForList().range("captcha",0, -1)
                 .stream()
                 .map(c->c.replace("\"",""))
                 .filter(a->a.equalsIgnoreCase(captcha))
                 .collect(Collectors.toList());
-        if (!captchas.isEmpty()){
+        if (ArrayUtil.isNotEmpty(captchas)){
             bean.opsForList().remove("captcha",1,"\""+captchas.get(0)+"\"");
             return true;
         }
