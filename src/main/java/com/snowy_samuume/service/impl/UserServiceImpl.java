@@ -81,6 +81,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .stream()
                 .map(Permission::getPermissionCode)
                 .collect(Collectors.toList());
+
         permissionCodes.add(role.getRoleCode());
 
         user.setAuthorities( AuthorityUtils.commaSeparatedStringToAuthorityList(
@@ -92,14 +93,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public boolean saveUser(User user) {
-        if (user.getVerificationCode().equals(redisTemplate.opsForValue().get(user.getEmail()+":verificationCode"))){
+        Object verificationCode = redisTemplate.opsForValue().get(user.getEmail() + ":verificationCode");
+        if (user.getVerificationCode().equals(verificationCode)){
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            if (StrUtil.isEmpty(user.getNickname())) {
-                user.setNickname(user.getUsername());
-            }
+            Optional.ofNullable(user.getNickname()).ifPresent(u->user.setNickname(u));
             return userMapper.insert(user)>0;
         }
-        return false;
+            return false;
     }
 
     @Override
