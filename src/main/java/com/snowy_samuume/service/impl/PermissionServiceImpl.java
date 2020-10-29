@@ -31,7 +31,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Override
     public boolean savePermission(Permission permission) {
         permission.setCreateMan(SecurityUitls.getUserInfo().getId());
-        permission.setPermissionPids("ddasd");
+        permission.setPermissionPids("");
         return permissionMapper.insert(permission)>0;
     }
 

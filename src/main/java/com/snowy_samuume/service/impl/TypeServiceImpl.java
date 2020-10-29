@@ -34,7 +34,6 @@ public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type> implements Ty
 
     @Override
     public Type selectTypeById(Integer TypeId) {
-
         return typeMapper.selectById(TypeId);
     }
 
