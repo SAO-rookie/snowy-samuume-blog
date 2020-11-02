@@ -55,11 +55,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/getVerificationCode")
-    @ApiOperation(value = "给邮箱发送验证码",notes = "给邮箱发送验证码")
-    public R getVerificationCode(@NotBlank @Email String email){
-        return  R.ok(userService.sendVerificationCode(email));
-    }
+
 
     @PostMapping("/register")
     @ApiOperation(value = "用户注册",notes = "用户注册")
@@ -69,7 +65,7 @@ public class UserController {
 
     @PutMapping
     @ApiOperation(value = "用户修改",notes = "用户修改")
-    public R updateUser(@RequestBody @Valid User user){
+    public R updateUser(@RequestBody  User user){
         user.setPassword(null);
         user.setUpdateTime(DateUtil.date());
         user.setUpdateMan(SecurityUitls.getUserInfo().getId());
@@ -83,6 +79,13 @@ public class UserController {
         user.setId(userId);
         user.setStatus(2);
         return R.ok(userService.updateById(user));
+    }
+
+
+    @GetMapping("/getVerificationCode")
+    @ApiOperation(value = "给邮箱发送验证码",notes = "给邮箱发送验证码")
+    public R getVerificationCode(@NotBlank @Email String email){
+        return  R.ok(userService.sendVerificationCode(email));
     }
 
     @GetMapping("/getCaptcha")
