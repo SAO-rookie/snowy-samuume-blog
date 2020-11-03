@@ -73,6 +73,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .map(c->c.replace("\"",""))
                 .filter(a->a.equalsIgnoreCase(captcha))
                 .collect(Collectors.toList());
+
         if (ArrayUtil.isNotEmpty(captchas)){
             bean.opsForList().remove("captcha",1,"\""+captchas.get(0)+"\"");
             return true;

@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeMessage;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -72,14 +73,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userMapper.selectById(userId);
     }
 
-    @Override
-    public boolean updateUserById(UserVo userVo) {
-        User user = dozerBeanMapperl.map(userVo, User.class);
-        user.setUpdateTime(DateUtil.date());
-        user.setUpdateMan(SecurityUitls.getUserInfo().getId());
-        return userMapper.updateById(user)>0;
-    }
-
 
     @Override
     @Cacheable(key ="#p0+':username'")
@@ -113,6 +106,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return userMapper.insert(user)>0;
         }
             return false;
+    }
+
+    @Override
+    public boolean updateUserById(UserVo userVo) {
+        User user = dozerBeanMapperl.map(userVo, User.class);
+        user.setUpdateTime(DateUtil.date());
+        user.setUpdateMan(SecurityUitls.getUserInfo().getId());
+        return userMapper.updateById(user)>0;
+    }
+
+    @Override
+    public boolean updateUserOfPassword(Map<String, String> map) {
+        String username = SecurityUitls.getUserInfo().getUsername();
+        boolean matches = passwordEncoder.matches(map.get("oldPassword"), map.get("newPassword"));
+        return matches ? userMapper.updateUserOfPassword(username, map.get("newPassword"))>0 : false;
     }
 
     @Override

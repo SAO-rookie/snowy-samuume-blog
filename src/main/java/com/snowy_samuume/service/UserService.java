@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.snowy_samuume.entity.User;
 import com.snowy_samuume.entity.vo.UserVo;
 
+import java.util.Map;
+
 /**
  * <p>
  *  服务类
@@ -20,6 +22,8 @@ public interface UserService extends IService<User> {
    User getUserInfoById(Integer userId);
 
    boolean updateUserById(UserVo userVo);
+
+   boolean updateUserOfPassword(Map<String,String> map);
 
 
 

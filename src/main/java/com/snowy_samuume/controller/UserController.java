@@ -13,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * @author snowy
@@ -67,8 +70,13 @@ public class UserController {
     @PutMapping
     @ApiOperation(value = "用户修改",notes = "用户修改")
     public R updateUser(@RequestBody UserVo user){
-        userService.updateUserById(user);
-        return R.ok();
+        return R.ok(userService.updateUserById(user));
+    }
+
+    @PutMapping("/password")
+    @ApiOperation(value = "密码修改",notes = "密码修改")
+    public R updateUserOfPassword(@RequestBody @Valid @NotEmpty Map<String,String> map){
+        return R.ok(userService.updateUserOfPassword(map));
     }
 
     @DeleteMapping("/{userId}")
