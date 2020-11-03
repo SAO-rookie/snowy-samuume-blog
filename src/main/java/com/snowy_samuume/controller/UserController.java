@@ -5,6 +5,7 @@ import cn.hutool.captcha.ShearCaptcha;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.snowy_samuume.entity.User;
+import com.snowy_samuume.entity.vo.UserVo;
 import com.snowy_samuume.service.UserService;
 import com.snowy_samuume.tool.R;
 import com.snowy_samuume.tool.SecurityUitls;
@@ -65,11 +66,9 @@ public class UserController {
 
     @PutMapping
     @ApiOperation(value = "用户修改",notes = "用户修改")
-    public R updateUser(@RequestBody  User user){
-        user.setPassword(null);
-        user.setUpdateTime(DateUtil.date());
-        user.setUpdateMan(SecurityUitls.getUserInfo().getId());
-        return R.ok(userService.updateById(user));
+    public R updateUser(@RequestBody UserVo user){
+        userService.updateUserById(user);
+        return R.ok();
     }
 
     @DeleteMapping("/{userId}")

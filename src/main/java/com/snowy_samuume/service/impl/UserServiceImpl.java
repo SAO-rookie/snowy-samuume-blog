@@ -1,17 +1,21 @@
 package com.snowy_samuume.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.snowy_samuume.entity.Permission;
 import com.snowy_samuume.entity.Roles;
 import com.snowy_samuume.entity.User;
+import com.snowy_samuume.entity.vo.UserVo;
 import com.snowy_samuume.mapper.UserMapper;
 import com.snowy_samuume.service.PermissionService;
 import com.snowy_samuume.service.RolesService;
 import com.snowy_samuume.service.UserService;
 import com.snowy_samuume.tool.SecurityUitls;
 import lombok.extern.slf4j.Slf4j;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
@@ -56,6 +60,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private RedisTemplate redisTemplate;
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private Mapper dozerBeanMapperl;
 
     @Value("${spring.mail.username}")
     private String fromMail;
@@ -66,6 +72,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userMapper.selectById(userId);
     }
 
+    @Override
+    public boolean updateUserById(UserVo userVo) {
+        User user = dozerBeanMapperl.map(userVo, User.class);
+        user.setUpdateTime(DateUtil.date());
+        user.setUpdateMan(SecurityUitls.getUserInfo().getId());
+        return userMapper.updateById(user)>0;
+    }
 
 
     @Override

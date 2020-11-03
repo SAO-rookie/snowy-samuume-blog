@@ -1,6 +1,7 @@
 package com.snowy_samuume.config;
 
 import com.snowy_samuume.tool.IdWorker;
+import org.dozer.DozerBeanMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,5 +16,10 @@ public class OtherConfig {
     @Bean
     public IdWorker idWorker(){
         return new IdWorker();
+    }
+
+    @Bean
+    public DozerBeanMapper dozerBeanMapper(){
+        return new DozerBeanMapper();
     }
 }
