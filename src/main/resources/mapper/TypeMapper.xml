@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snowy_samuume.mapper.TypeMapper">
+    <resultMap id="oneMap" type="com.snowy_samuume.entity.Type">
+        <id column="id" property="id"/>
+        <result column="type_name" property="typeName"/>
+    </resultMap>
+
+
+    <select id="selectTypeById" resultMap="oneMap">
+        select id,type_name from t_type
+        where id = #{id} and status = 0;
+    </select>
+
+    <select id="selectAllType" resultMap="oneMap">
+        select id,type_name from t_type
+        where status = 0;
+    </select>
+</mapper>

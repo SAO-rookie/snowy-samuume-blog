@@ -26,11 +26,8 @@ public class R<T> implements Serializable {
     @ApiModelProperty(value = "返回标记：成功标记=0，失败标记=1")
     private int code;
 
-
     @ApiModelProperty(value = "返回信息")
     private String msg;
-
-
 
     @ApiModelProperty(value = "数据")
     private T data;

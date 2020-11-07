@@ -16,10 +16,14 @@ import java.util.List;
  * @since 2020-09-19
  */
 public interface TypeService extends IService<Type> {
-    void addType(Type type);
-    void deleteTypeById(Integer TypeId);
-    void deleteTypeByName(String typeName);
+
+    boolean addType(Type type);
+
+    boolean deleteTypeById(Integer TypeId);
+
     Type selectTypeById(Integer TypeId);
+
     List<Type> selectAllType();
-    void updateTypeById(Integer TypeId);
+
+    boolean updateTypeById(Type type);
 }

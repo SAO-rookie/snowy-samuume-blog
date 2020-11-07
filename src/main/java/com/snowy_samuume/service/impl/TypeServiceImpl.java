@@ -20,34 +20,37 @@ import java.util.List;
 @Service
 public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type> implements TypeService {
     @Autowired
-    TypeMapper typeMapper;
+    private TypeMapper typeMapper;
 
     @Override
-    public void addType(Type type) {
-        typeMapper.insert(type);
+    public boolean addType(Type type) {
+        int isExit= typeMapper.insert(type);
+        return isExit > 0;
     }
 
     @Override
-    public void deleteTypeById(Integer TypeId) {
-        typeMapper.deleteById(TypeId);
+    public boolean deleteTypeById(Integer TypeId) {
+        Type type=new Type();
+        type.setId(TypeId);
+        type.setStatus(1);
+        int isExit= typeMapper.updateById(type);
+        return isExit > 0;
+    }
+
+    @Override
+    public boolean updateTypeById(Type type) {
+        return typeMapper.updateById(type)>0;
     }
 
     @Override
     public Type selectTypeById(Integer TypeId) {
-        return typeMapper.selectById(TypeId);
+        return typeMapper.selectTypeById(TypeId);
     }
 
     @Override
     public List<Type> selectAllType() {
-        return null;
+        return typeMapper.selectAllType();
     }
 
-    @Override
-    public void updateTypeById(Integer TypeId) {
 
-    }
-    @Override
-    public void deleteTypeByName(String typeName) {
-
-    }
 }

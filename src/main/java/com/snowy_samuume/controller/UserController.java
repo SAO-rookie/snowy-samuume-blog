@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.snowy_samuume.entity.User;
 import com.snowy_samuume.entity.vo.UserVo;
 import com.snowy_samuume.service.UserService;
+import com.snowy_samuume.service.impl.UserServiceImpl;
 import com.snowy_samuume.tool.R;
 import com.snowy_samuume.tool.SecurityUitls;
 import io.swagger.annotations.Api;
@@ -34,8 +35,8 @@ import java.util.Map;
 @Api(value = "用户模块",tags = {"用户模块"})
 @Validated
 public class UserController {
-    @Autowired
-    private UserService userService;
+
+    private UserService userService = new UserServiceImpl();
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -57,8 +58,6 @@ public class UserController {
     public R getUserPage(Page page){
         return R.ok(userService.page(page));
     }
-
-
 
 
     @PostMapping("/register")
@@ -87,7 +86,6 @@ public class UserController {
         user.setStatus(2);
         return R.ok(userService.updateById(user));
     }
-
 
     @GetMapping("/getVerificationCode")
     @ApiOperation(value = "给邮箱发送验证码",notes = "给邮箱发送验证码")
