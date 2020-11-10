@@ -3,6 +3,7 @@ package com.snowy_samuume.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.snowy_samuume.entity.User;
 import com.snowy_samuume.entity.vo.UserVo;
+import com.snowy_samuume.tool.other.Status;
 
 import java.util.Map;
 
@@ -24,6 +25,8 @@ public interface UserService extends IService<User> {
    boolean updateUserById(UserVo userVo);
 
    boolean updateUserOfPassword(Map<String,String> map);
+
+   boolean deleteOrDeactivateById(int id, Status status);
 
 
 

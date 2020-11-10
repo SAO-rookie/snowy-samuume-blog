@@ -2,6 +2,7 @@ package com.snowy_samuume.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.snowy_samuume.entity.Permission;
+import com.snowy_samuume.tool.other.Status;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,5 +21,7 @@ public interface PermissionService extends IService<Permission> {
     boolean savePermission(Permission permission);
 
     boolean updatePermission(Permission permission);
+
+    boolean deleteOrDeactivateById(int id, Status status);
 
 }

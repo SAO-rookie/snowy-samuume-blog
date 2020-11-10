@@ -2,6 +2,7 @@ package com.snowy_samuume.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.snowy_samuume.entity.Roles;
+import com.snowy_samuume.tool.other.Status;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,4 +17,6 @@ import java.util.List;
  */
 public interface RolesService extends IService<Roles> {
     boolean saveRoleAndPermissions(Integer roleId,  List<Integer> permissions);
+
+    boolean deleteOrDeactivateById(int id, Status status);
 }

@@ -5,6 +5,7 @@ import com.snowy_samuume.entity.Roles;
 import com.snowy_samuume.entity.User;
 import com.snowy_samuume.service.RolesService;
 import com.snowy_samuume.tool.R;
+import com.snowy_samuume.tool.other.Status;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,9 +62,15 @@ public class RolesController {
     }
 
     @DeleteMapping("/rolesId")
-    @ApiOperation(value = "修改角色",notes = "修改角色")
+    @ApiOperation(value = "根据id删除角色",notes = "根据id删除角色")
     public R deleteRoles(@PathVariable Integer rolesId){
-        return R.ok(rolesService.removeById(rolesId));
+        return R.ok(rolesService.deleteOrDeactivateById(rolesId, Status.DELETE));
+    }
+
+    @DeleteMapping("/deactivate/rolesId")
+    @ApiOperation(value = "根据id停用角色",notes = "根据id停用角色")
+    public R deactivateRoles(@PathVariable Integer rolesId){
+        return R.ok(rolesService.deleteOrDeactivateById(rolesId, Status.RECYCLING_OR_DEACTIVATE));
     }
 
 }

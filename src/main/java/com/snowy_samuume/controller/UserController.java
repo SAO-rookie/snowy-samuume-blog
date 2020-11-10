@@ -10,6 +10,7 @@ import com.snowy_samuume.service.UserService;
 import com.snowy_samuume.service.impl.UserServiceImpl;
 import com.snowy_samuume.tool.R;
 import com.snowy_samuume.tool.SecurityUitls;
+import com.snowy_samuume.tool.other.Status;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,12 +80,15 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    @ApiOperation(value = "用户删除",notes = "用户删除")
-    public R updateUser(@PathVariable Integer userId){
-        User user = new User();
-        user.setId(userId);
-        user.setStatus(2);
-        return R.ok(userService.updateById(user));
+    @ApiOperation(value = "根据Id删除用户",notes = "根据Id删除用户")
+    public R deleteById(@PathVariable Integer userId){
+        return R.ok(userService.deleteOrDeactivateById(userId, Status.DELETE));
+    }
+
+    @DeleteMapping("/deactivate/{userId}")
+    @ApiOperation(value = "根据Id停用用户",notes = "根据Id停用用户")
+    public R deactivateById(@PathVariable Integer userId){
+        return R.ok(userService.deleteOrDeactivateById(userId, Status.RECYCLING_OR_DEACTIVATE));
     }
 
     @GetMapping("/getVerificationCode")

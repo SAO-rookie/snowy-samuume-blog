@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.snowy_samuume.entity.Permission;
 import com.snowy_samuume.service.PermissionService;
 import com.snowy_samuume.tool.R;
+import com.snowy_samuume.tool.other.Status;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +47,15 @@ public class PermissionConrtoller {
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "删除权限信息" , notes = "删除权限信息")
+    @ApiOperation(value = "根据Id删除权限信息" , notes = "根据Id删除权限信息")
     public R deleteById(@PathVariable Integer id){
-        return R.ok(permissionService.removeById(id));
+        return R.ok(permissionService.deleteOrDeactivateById(id, Status.DELETE));
+    }
+
+    @DeleteMapping("/deactivate/{id}")
+    @ApiOperation(value = "根据Id停用权限信息" , notes = "根据Id停用权限信息")
+    public R deactivateById(@PathVariable Integer id){
+        return R.ok(permissionService.deleteOrDeactivateById(id, Status.RECYCLING_OR_DEACTIVATE));
     }
 
 

@@ -1,10 +1,12 @@
 package com.snowy_samuume.service.impl;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.snowy_samuume.entity.Permission;
 import com.snowy_samuume.mapper.PermissionMapper;
 import com.snowy_samuume.service.PermissionService;
 import com.snowy_samuume.tool.SecurityUitls;
+import com.snowy_samuume.tool.other.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,16 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     public boolean updatePermission(Permission permission) {
         permission.setUpdateMan(SecurityUitls.getUserInfo().getId());
         permission.setUpdateTime(new Date());
+        return permissionMapper.updateById(permission)>0;
+    }
+
+    @Override
+    public boolean deleteOrDeactivateById(int id, Status status) {
+        Permission permission = new Permission();
+        permission.setId(id);
+        permission.setStatus(status.getValues());
+        permission.setUpdateMan(SecurityUitls.getUserInfo().getId());
+        permission.setUpdateTime(DateTime.now());
         return permissionMapper.updateById(permission)>0;
     }
 }

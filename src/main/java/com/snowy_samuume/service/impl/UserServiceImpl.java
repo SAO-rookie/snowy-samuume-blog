@@ -1,5 +1,6 @@
 package com.snowy_samuume.service.impl;
 
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -13,6 +14,7 @@ import com.snowy_samuume.service.PermissionService;
 import com.snowy_samuume.service.RolesService;
 import com.snowy_samuume.service.UserService;
 import com.snowy_samuume.tool.SecurityUitls;
+import com.snowy_samuume.tool.other.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
@@ -121,6 +123,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String username = SecurityUitls.getUserInfo().getUsername();
         boolean matches = passwordEncoder.matches(map.get("oldPassword"), map.get("newPassword"));
         return matches ? userMapper.updateUserOfPassword(username, map.get("newPassword"))>0 : false;
+    }
+
+    @Override
+    public boolean deleteOrDeactivateById(int id, Status status) {
+        User user = new User();
+        user.setId(id);
+        user.setStatus(status.getValues());
+        user.setUpdateMan(SecurityUitls.getUserInfo().getId());
+        user.setUpdateTime(DateTime.now());
+        return userMapper.updateById(user)>0;
     }
 
     @Override
