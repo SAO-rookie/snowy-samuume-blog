@@ -37,7 +37,8 @@ import java.util.Map;
 @Validated
 public class UserController {
 
-    private UserService userService = new UserServiceImpl();
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private RedisTemplate redisTemplate;

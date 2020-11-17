@@ -42,7 +42,7 @@ public class BlogController {
     public R getById(@PathVariable String id){
         QueryWrapper<Blog> wrapper = new QueryWrapper<>();
         wrapper.eq("id",id);
-        wrapper.eq("status",0);
+        wrapper.eq("status",Status.NORMAL.getValues());
         return R.ok(blogService.getOne(wrapper));
     }
 
