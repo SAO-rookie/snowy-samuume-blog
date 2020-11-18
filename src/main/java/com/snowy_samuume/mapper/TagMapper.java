@@ -2,7 +2,10 @@ package com.snowy_samuume.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.snowy_samuume.entity.Tag;
+import com.snowy_samuume.entity.Type;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author snowy
@@ -11,4 +14,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TagMapper extends BaseMapper<Tag> {
 
+    List<Tag> selectAllTag();
 }
