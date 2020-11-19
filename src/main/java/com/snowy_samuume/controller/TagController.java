@@ -55,7 +55,7 @@ public class TagController {
     }
 
     @ApiOperation(value = "停用标签",notes = "停用标签")
-    @DeleteMapping("/deactivate/{id}")
+    @PutMapping("/deactivate/{id}")
     public R deactivateTagById(@PathVariable Integer id){
         return R.ok(tagService.deleteOrDeactivateById(id, Status.RECYCLING_OR_DEACTIVATE));
     }

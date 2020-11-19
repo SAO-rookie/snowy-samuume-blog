@@ -68,7 +68,7 @@ public class BlogController {
         return R.ok(blogService.deleteOrRecycleById(id, Status.DELETE));
     }
 
-    @DeleteMapping("/recycle/{id}")
+    @PutMapping("/recycle/{id}")
     @ApiOperation(value = "根据ID回收",notes = "根据ID回收")
     public R recycleById(@PathVariable String id){
         return R.ok(blogService.deleteOrRecycleById(id, Status.RECYCLING_OR_DEACTIVATE));

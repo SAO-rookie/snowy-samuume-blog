@@ -86,7 +86,7 @@ public class UserController {
         return R.ok(userService.deleteOrDeactivateById(userId, Status.DELETE));
     }
 
-    @DeleteMapping("/deactivate/{userId}")
+    @PutMapping("/deactivate/{userId}")
     @ApiOperation(value = "根据Id停用用户",notes = "根据Id停用用户")
     public R deactivateById(@PathVariable Integer userId){
         return R.ok(userService.deleteOrDeactivateById(userId, Status.RECYCLING_OR_DEACTIVATE));

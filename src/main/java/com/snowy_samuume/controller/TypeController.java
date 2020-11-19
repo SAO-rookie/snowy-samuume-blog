@@ -40,7 +40,7 @@ public class TypeController {
     }
 
     @ApiOperation(value = "停用类型",notes = "停用类型")
-    @DeleteMapping("/deactivate/{id}")
+    @PutMapping("/deactivate/{id}")
     public R deactivateTypeById(@PathVariable Integer id){
         return R.ok(typeService.deleteOrDeactivateById(id, Status.RECYCLING_OR_DEACTIVATE));
     }

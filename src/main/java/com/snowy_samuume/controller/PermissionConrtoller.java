@@ -52,7 +52,7 @@ public class PermissionConrtoller {
         return R.ok(permissionService.deleteOrDeactivateById(id, Status.DELETE));
     }
 
-    @DeleteMapping("/deactivate/{id}")
+    @PutMapping("/deactivate/{id}")
     @ApiOperation(value = "根据Id停用权限信息" , notes = "根据Id停用权限信息")
     public R deactivateById(@PathVariable Integer id){
         return R.ok(permissionService.deleteOrDeactivateById(id, Status.RECYCLING_OR_DEACTIVATE));

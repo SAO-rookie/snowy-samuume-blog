@@ -67,7 +67,7 @@ public class RolesController {
         return R.ok(rolesService.deleteOrDeactivateById(rolesId, Status.DELETE));
     }
 
-    @DeleteMapping("/deactivate/rolesId")
+    @PutMapping("/deactivate/rolesId")
     @ApiOperation(value = "根据id停用角色",notes = "根据id停用角色")
     public R deactivateRoles(@PathVariable Integer rolesId){
         return R.ok(rolesService.deleteOrDeactivateById(rolesId, Status.RECYCLING_OR_DEACTIVATE));
