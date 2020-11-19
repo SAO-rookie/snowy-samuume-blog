@@ -5,6 +5,7 @@ import com.snowy_samuume.entity.Tag;
 import com.snowy_samuume.entity.Type;
 import com.snowy_samuume.mapper.TagMapper;
 import com.snowy_samuume.service.TagService;
+import com.snowy_samuume.tool.other.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,16 +31,16 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     }
 
     @Override
-    public boolean deleteTagById(Integer TagId) {
+    public boolean deleteOrDeactivateById(int TagId, Status status) {
         Tag tag = new Tag();
         tag.setId(TagId);
-        tag.setStatus(2);
+        tag.setStatus(status.getValues());
         int isExct=tagMapper.deleteById(TagId);
         return isExct>0;
     }
 
     @Override
-    public Tag selectTagById(Integer TagId) {
+    public Tag selectTagById(int TagId) {
         return tagMapper.selectById(TagId);
     }
 

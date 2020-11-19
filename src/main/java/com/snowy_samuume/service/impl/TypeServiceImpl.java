@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.snowy_samuume.entity.Type;
 import com.snowy_samuume.mapper.TypeMapper;
 import com.snowy_samuume.service.TypeService;
+import com.snowy_samuume.tool.other.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,17 +25,15 @@ public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type> implements Ty
 
     @Override
     public boolean addType(Type type) {
-        int isExit= typeMapper.insert(type);
-        return isExit > 0;
+        return typeMapper.insert(type) > 0;
     }
 
     @Override
-    public boolean deleteTypeById(Integer TypeId) {
+    public boolean deleteOrDeactivateById(int TypeId, Status status) {
         Type type=new Type();
         type.setId(TypeId);
-        type.setStatus(1);
-        int isExit= typeMapper.updateById(type);
-        return isExit > 0;
+        type.setStatus(status.getValues());
+        return typeMapper.updateById(type) > 0;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.snowy_samuume.entity.Type;
 import com.snowy_samuume.service.TagService;
 import com.snowy_samuume.service.TypeService;
 import com.snowy_samuume.tool.R;
+import com.snowy_samuume.tool.other.Status;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,6 @@ public class TagController {
         return R.ok(tagService.addTag(tag));
     }
 
-    @ApiOperation(value = "删除标签",notes = "删除标签")
-    @DeleteMapping("/{id}")
-    public R deleteTagById(@PathVariable Integer id){
-        return R.ok(tagService.deleteTagById(id));
-    }
-
     @ApiOperation(value = "修改标签",notes ="修改标签")
     @PutMapping
     public R updateById(@RequestBody @Validated Tag tag){
@@ -51,5 +46,17 @@ public class TagController {
     @GetMapping
     public R selectAllTag(){
         return R.ok(tagService.selectAllTag());
+    }
+
+    @ApiOperation(value = "删除标签",notes = "删除标签")
+    @DeleteMapping("/{id}")
+    public R deleteTagById(@PathVariable Integer id){
+        return R.ok(tagService.deleteOrDeactivateById(id, Status.DELETE));
+    }
+
+    @ApiOperation(value = "停用标签",notes = "停用标签")
+    @DeleteMapping("/deactivate/{id}")
+    public R deactivateTagById(@PathVariable Integer id){
+        return R.ok(tagService.deleteOrDeactivateById(id, Status.RECYCLING_OR_DEACTIVATE));
     }
 }

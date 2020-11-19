@@ -4,6 +4,7 @@ import com.snowy_samuume.entity.Type;
 import com.snowy_samuume.mapper.TypeMapper;
 import com.snowy_samuume.service.TypeService;
 import com.snowy_samuume.tool.R;
+import com.snowy_samuume.tool.other.Status;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +30,19 @@ public class TypeController {
     @ApiOperation(value = "添加类型",notes = "添加类型")
     @PostMapping
     public R addType(@RequestBody Type type){
-
         return R.ok(typeService.addType(type));
-
     }
 
     @ApiOperation(value = "删除类型",notes = "删除类型")
     @DeleteMapping("/{id}")
     public R deleteTypeById(@PathVariable Integer id){
-        return R.ok(typeService.deleteTypeById(id));
+        return R.ok(typeService.deleteOrDeactivateById(id, Status.DELETE));
+    }
+
+    @ApiOperation(value = "停用类型",notes = "停用类型")
+    @DeleteMapping("/deactivate/{id}")
+    public R deactivateTypeById(@PathVariable Integer id){
+        return R.ok(typeService.deleteOrDeactivateById(id, Status.RECYCLING_OR_DEACTIVATE));
     }
 
     @ApiOperation(value = "修改类型",notes ="修改类型")

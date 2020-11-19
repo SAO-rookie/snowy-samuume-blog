@@ -3,6 +3,7 @@ package com.snowy_samuume.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.snowy_samuume.entity.Tag;
 import com.snowy_samuume.entity.Type;
+import com.snowy_samuume.tool.other.Status;
 
 import java.util.List;
 
@@ -17,9 +18,9 @@ import java.util.List;
 public interface TagService extends IService<Tag> {
     boolean addTag(Tag tag);
 
-    boolean deleteTagById(Integer TagId);
+    boolean deleteOrDeactivateById(int TagId, Status status);
 
-    Tag selectTagById(Integer TagId);
+    Tag selectTagById(int TagId);
 
     List<Tag> selectAllTag();
 
