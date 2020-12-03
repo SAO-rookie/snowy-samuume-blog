@@ -16,8 +16,8 @@
 
     <insert id="bulkInsertRolesAndPermission">
         INSERT INTO sys_roles_permission(`roles_id`, `permission_id`) VALUES
-        <foreach collection="permissions" item="item" open="(" close=")" separator=",">
-            #{roleId},#{item}
+        <foreach collection="permissions" item="item"  separator=",">
+            (#{roleId},#{item})
         </foreach>
     </insert>
 </mapper>

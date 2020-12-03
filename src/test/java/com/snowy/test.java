@@ -1,6 +1,10 @@
 package com.snowy;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.snowy_samuume.BlogApplication;
+import com.snowy_samuume.entity.Permission;
+import com.snowy_samuume.service.PermissionService;
+import com.snowy_samuume.service.RolesService;
 import com.snowy_samuume.service.impl.UserServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author snowy
@@ -21,14 +29,26 @@ public class test {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private PermissionService permissionService;
+
+    @Autowired
+    private RolesService rolesService;
+
     @Test
     public void get(){
+        List<Integer> collect = permissionService.list()
+                .stream()
+                .map(Permission::getId)
+                .collect(Collectors.toList());
 
-        /*User user = new User();
-        user.setNickname("dasda");
-        user.setPassword("dsda");
-        redisTemplate.opsForValue().set("user",user);*/
-        Object o = redisTemplate.boundValueOps("user::admin:username").get();
-        System.out.println(o);
+        rolesService.saveRoleAndPermissions(2,collect);
     }
+
+    @Test
+    public void oneTest(){
+        List<Integer> integers = Arrays.asList(6, 7, 8, 13, 32, 33);
+        rolesService.saveRoleAndPermissions(4,integers);
+    }
+
 }
